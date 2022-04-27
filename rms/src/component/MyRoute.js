@@ -11,19 +11,20 @@ export function MyRoute(){
          
         <div style={{margin:"0 auto",  width: "700px"}}>
            <div style={{margin:"0 auto",  width: "700px"}} class="btn-group" role="group" aria-label="Basic example">
-            
-          
-         {/* <button class="btn btn-secondary" type="button">
+         <button class="btn btn-secondary" type="button">
             <Link style={{color:"white",textDecoration:"none"}} to="/customers" >Customers</Link>
+         </button>
+         <button class="btn btn-secondary" type="button">
+            <Link style={{color:"white",textDecoration:"none"}} to="/items" >Items</Link>
          </button>
          <button class="btn btn-secondary" type="button">
             <Link style={{color:"white",textDecoration:"none"}} to="/employees" >Employees</Link>
          </button>
          <button class="btn btn-secondary" type="button">
             <Link style={{color:"white",textDecoration:"none"}} to="/owner">Owner </Link>
-         </button> */}
-         <button>
-            <Link style={{color:"white",textDecoration:"none"}} to="/home">Home</Link>
+         </button>
+         <button class="btn btn-secondary" type="button">
+            <Link style={{color:"white",textDecoration:"none"}} to="/">Home</Link>
          </button>
          </div>
         </div>
