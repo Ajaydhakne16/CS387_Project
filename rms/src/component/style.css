@@ -1,0 +1,47 @@
+body {
+    background-color: #fbfbfd;
+    color: rgb(2, 0, 0);
+    padding: 40px;
+    font-family: Arial;
+    text-align: center;
+
+  }
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    
+  }
+
+  .mythread:nth-child(even) {
+    text-align: center;
+    background-color: #dddddd;
+    
+  }
+
+  .mythread {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+    width: 20rem !important;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center;
+  }
+  h3{
+    text-align: left;
+  }
+  .mysummary{ background-color: rgb(224, 240, 245);
+    
+  }
+
