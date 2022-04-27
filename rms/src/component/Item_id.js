@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import './style.css'
 
+var a="";
 function printItem(data, setX) {
-
     setX(data.map((item, index) => {
+        a=item.name;
     return ( 
         <tr>
-        <td>{item.item_id}</td>
         <td>{item.ingredient_id}</td>
         <td>{item.quantity}</td>
         <td>{item.name}</td>
@@ -23,20 +23,26 @@ function Item_id(){
     const [X, setX] = useState(<></>);
 
     const { item_id } = useParams();
+    console.log(item_id);
     useEffect(() => {
         fetch('http://localhost:3001/items/'+item_id)
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             printItem(data, setX);
-            setData(data);
-            
+            setData(data);     
         })
     }, []);
-    
     return (
         <div>
-            <h2>hehe</h2>
+            <h2>{a}</h2>
+        <tr>
+          <th>Ingredient_id</th>
+          <th>Name</th>
+          <th>Stock</th>
+          <th>Price</th>
+          <th>Description</th>
+          
+        </tr>
             {X}
         </div>
     )

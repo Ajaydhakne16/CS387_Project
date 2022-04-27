@@ -11,7 +11,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.get('/items',(req,res)=>{
-   
+    
     ptest.handle_query()
     .then(response => {
         res.status(200).send(response.rows);
@@ -22,7 +22,31 @@ app.get('/items',(req,res)=>{
 }
 );
 app.get('/items/:item_id',(req,res)=>{
+  
     ptest.handle_query1(parseInt(req.params.item_id))
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+app.get('/customers',(req,res)=>{
+  
+    ptest.handle_query2()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/customers/:customer_id',(req,res)=>{
+
+    ptest.handle_query3(toString(req.params.customer_id))
     .then(response => {
         res.status(200).send(response.rows);
       })

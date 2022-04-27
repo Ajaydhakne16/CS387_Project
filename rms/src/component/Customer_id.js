@@ -1,47 +1,49 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import './style.css'
 
-function printCustomers(data, setX) {
-
+var a="";
+function printCustomer(data, setX) {
     setX(data.map((item, index) => {
+        a=item.name;
     return ( 
         <tr>
-        <td><a style={{ textDecoration: "none" }} href={'/customers/' + item.email}>{item.name}</a> </td>
            <td>{item.email}</td> 
            <td>{item.contact}</td> 
            <td>{item.address}</td> 
            <td>{item.premium}</td> 
-        </tr>   
+      </tr> 
     )
 }))
 }
-function Customer(){
 
+function Customer_id(){
     const [data, setData] = useState([]);
     const [X, setX] = useState(<></>);
+
+    let { email_id } = useParams();
+    
     
     useEffect(() => {
-        fetch('http://localhost:3001/customers')
+        fetch('http://localhost:3001/customers/'+email_id)
         .then(res => res.json())
         .then(data => {
-            
-            printCustomers(data, setX);
-            setData(data);
+            printCustomer(data, setX);
+            setData(data);   
         })
     }, []);
     return (
         <div>
+         <h2>{a}</h2>
         <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Premium</th>
-
+        <th>Email</th>
+        <th>Contact</th>
+        <th>Address</th>
+        <th>Premium</th>
         </tr>
             {X}
         </div>
     )
 }
-export default Customer;
+export default Customer_id;

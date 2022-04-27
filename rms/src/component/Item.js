@@ -15,18 +15,19 @@ function printItem(data, setX) {
     return ( 
         <tr>
         <td>{item.item_id}</td>
-        <td><a style={{ textDecoration: "none" }} href={'/items/' + item.id}>{item.name}</a> </td>
+        <td><a style={{ textDecoration: "none" }} href={'/items/' + item.item_id}>{item.name}</a> </td>
         <td>{item.type}</td>
         <td>{item.category}</td>
         <td>{item.price}</td>
         <td>{item.availabilty}</td>
         <td>{item.rating}</td>
-       
       </tr> 
     )
 }))
 }
+
 function Item(){
+
     const [data, setData] = useState([]);
     const [X, setX] = useState(<></>);
     
@@ -34,10 +35,8 @@ function Item(){
         fetch('http://localhost:3001/items')
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             printItem(data, setX);
-            setData(data);
-            
+            setData(data);    
         })
     }, []);
     
