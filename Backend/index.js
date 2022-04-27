@@ -5,7 +5,7 @@ const ptest = require('./db.js');
 const o = require('./orders.js');
 const m = require('./menu.js');
 const i = require('./ingredient.js');
-const u = require('./user.js');
+const u = require('./users.js');
 const t = require('./table.js');
 
 app.use(express.json());
@@ -116,7 +116,7 @@ app.get('/user/:id',(req,res)=>{
 );
 
 app.get('/table',(req,res)=>{
-    t.list_tables()
+    t.show_tables()
     .then(response => {
         res.status(200).send(response.rows);
         })
