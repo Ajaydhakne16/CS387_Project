@@ -5,6 +5,8 @@ const ptest = require('./db.js');
 const o = require('./orders.js');
 const m = require('./menu.js');
 const i = require('./ingredient.js');
+const u = require('./user.js');
+const t = require('./table.js');
 
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -82,6 +84,39 @@ app.get('/stock',(req,res)=>{
 
 app.get('/stock/:id',(req,res)=>{
     i.ingredient_details(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+
+app.get('/user',(req,res)=>{
+    u.list_users()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+
+app.get('/user/:id',(req,res)=>{
+    u.user_details(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+
+app.get('/table',(req,res)=>{
+    t.list_tables()
     .then(response => {
         res.status(200).send(response.rows);
         })
