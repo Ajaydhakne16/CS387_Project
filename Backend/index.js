@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 const port = 3001;
 const ptest = require('./db.js');
+const o = require('./orders.js');
+const m = require('./menu.js');
+const i = require('./ingredient.js');
 
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -21,6 +24,73 @@ app.get('/',(req,res)=>{
       })
 }
 );
+
+app.get('/orders',(req,res)=>{
+    o.display_orders()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/orders/:id',(req,res)=>{
+    o.display_order(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/menu',(req,res)=>{
+    m.display_menu(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/menu/:id',(req,res)=>{
+    m.display_item_details(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/stock',(req,res)=>{
+    i.list_ingredients()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+
+app.get('/stock/:id',(req,res)=>{
+    i.ingredient_details(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 }
