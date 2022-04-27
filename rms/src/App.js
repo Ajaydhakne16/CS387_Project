@@ -24,7 +24,7 @@ return(
           <Route path="/items" element={<Item/>}/>
           <Route path="/items/:item_id" element={<Item_id/>}/>
           <Route path="/customers" element={<Customer/>}/>
-          <Route path="/customers/:customer_id" element={<Customer_id/>}/>
+          <Route path="/customers/:email" element={<Customer_id/>}/>
           <Route path="/employee/:employee_id" element={<Customer_id/>}/>
           <Route path="/employee" element={<Customer_id/>}/>
           </Routes>

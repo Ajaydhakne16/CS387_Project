@@ -17,22 +17,47 @@ function printCustomer(data, setX) {
     )
 }))
 }
+function PrintOrders(data, setS) {
+    
+    setS(data.map((item, index) => {
+       
+    return ( 
+        <tr>
+           <td>{item.order_id}</td> 
+           <td>{item.price}</td> 
+           <td>{item.type}</td> 
+           <td>{item.waiter_id}</td> 
+           <td>{item.tip}</td>
+           <td>{item.cashier_id}</td> 
+      </tr> 
+    )
+}))
+}
 
 function Customer_id(){
     const [data, setData] = useState([]);
     const [X, setX] = useState(<></>);
+    const [S, setS] = useState(<></>);
 
-    let { email_id } = useParams();
-    
+    const { email } = useParams();
     
     useEffect(() => {
-        fetch('http://localhost:3001/customers/'+email_id)
+        fetch('http://localhost:3001/customers/'+email)
         .then(res => res.json())
         .then(data => {
             printCustomer(data, setX);
             setData(data);   
         })
     }, []);
+    function ShowOrders() {
+        fetch('http://localhost:3001/customers/orders/'+email)
+          .then(res => res.json())
+          .then(data => {
+            setData(data);
+            setS(PrintOrders(data));
+            console.log(data);
+          })
+      }
     return (
         <div>
          <h2>{a}</h2>
@@ -43,6 +68,8 @@ function Customer_id(){
         <th>Premium</th>
         </tr>
             {X}
+            <button class="btn btn-secondary" type="button" onClick={ShowOrders}>View Orders</button>
+            {S}
         </div>
     )
 }

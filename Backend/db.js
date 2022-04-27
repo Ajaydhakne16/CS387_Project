@@ -70,4 +70,19 @@ const handle_query3 = (customer_id) => {
         });
     });
 }
-module.exports = {pool,handle_query,handle_query1,handle_query2,handle_query3};
+const handle_query4 = (customer_id) => {
+    
+    return new Promise((resolve, reject) => {
+        
+        pool.query(`
+        SELECT * FROM food_order where food_order.customer_id = $1`,[customer_id],
+(error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results); 
+            console.log(results);
+        });
+    });
+}
+module.exports = {pool,handle_query,handle_query1,handle_query2,handle_query3,handle_query4};

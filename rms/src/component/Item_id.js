@@ -23,7 +23,7 @@ function Item_id(){
     const [X, setX] = useState(<></>);
 
     const { item_id } = useParams();
-    console.log(item_id);
+    
     useEffect(() => {
         fetch('http://localhost:3001/items/'+item_id)
         .then(res => res.json())

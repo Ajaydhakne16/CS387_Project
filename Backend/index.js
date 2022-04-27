@@ -44,9 +44,19 @@ app.get('/customers',(req,res)=>{
 }
 );
 
-app.get('/customers/:customer_id',(req,res)=>{
-
-    ptest.handle_query3(toString(req.params.customer_id))
+app.get('/customers/:email',(req,res)=>{
+    
+    ptest.handle_query3(req.params.email)
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+app.get('/customers/orders/:email',(req,res)=>{
+    ptest.handle_query4(req.params.email)
     .then(response => {
         res.status(200).send(response.rows);
       })
