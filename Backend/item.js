@@ -9,7 +9,7 @@ const pool = new Pool({
     port: process.env.PORT,
 });
 
-const handle_query = () => {
+const list_items = () => {
 
         return new Promise((resolve, reject) => {
             
@@ -24,7 +24,7 @@ const handle_query = () => {
             });
         });
 }
-const handle_query1 = (item_id) => {
+const list_item_ingredients = (item_id) => {
     return new Promise((resolve, reject) => {
         pool.query(`
         with X as 
@@ -40,34 +40,5 @@ const handle_query1 = (item_id) => {
         });
     });
 }
-const handle_query2 = () => {
 
-    return new Promise((resolve, reject) => {
-        
-        pool.query(`
-        SELECT * FROM customer`,
-(error, results) => {
-            if (error) {
-                reject(error);
-            }
-            resolve(results);
-            
-        });
-    });
-}
-const handle_query3 = (customer_id) => {
-    
-    return new Promise((resolve, reject) => {
-        
-        pool.query(`
-        SELECT * FROM customer where customer.email = $1`,[customer_id],
-(error, results) => {
-            if (error) {
-                reject(error);
-            }
-            resolve(results);
-            
-        });
-    });
-}
-module.exports = {pool,handle_query,handle_query1,handle_query2,handle_query3};
+module.exports = {pool,list_items,list_item_ingredients};

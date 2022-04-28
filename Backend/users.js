@@ -13,28 +13,29 @@ const display_users = () => {
 
         return new Promise((resolve, reject) => {
             
-            pool.query(`
-            SELECT * FROM users`,
+            pool.query(`SELECT * FROM customer`,
 (error, results) => {
                 if (error) {
                     reject(error);
                 }
                 resolve(results);
+                
             });
         });
 }
 
 const user_details = (user_id) => {
-
+        
         return new Promise((resolve, reject) => {
 
             pool.query(`
-            SELECT * FROM users WHERE user_id = $1`,
+            SELECT * FROM customer WHERE email = $1`,[user_id],
 (error, results) => {
                 if (error) {
                     reject(error);
                 }
                 resolve(results);
+                
             });
         });
 }

@@ -6,8 +6,8 @@ import {BrowserRouter as Router, Route,Routes, Link, BrowserRouter} from 'react-
 import Home from './component/Home';
 import Item from './component/Item'
 import Item_id from './component/Item_id'
-import Customer from './component/Customer.js'
-import Customer_id from './component/Customer_id.js'
+import User from './component/User.js'
+import User_id from './component/User_id.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export function App() {
@@ -22,11 +22,9 @@ return(
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/items" element={<Item/>}/>
-          <Route path="/items/:item_id" element={<Item_id/>}/>
-          <Route path="/customers" element={<Customer/>}/>
-          <Route path="/customers/:customer_id" element={<Customer_id/>}/>
-          <Route path="/employee/:employee_id" element={<Customer_id/>}/>
-          <Route path="/employee" element={<Customer_id/>}/>
+          <Route path="/items/:id" element={<Item_id/>}/>
+          <Route path="/user" element={<User/>}/>
+          <Route path="/user/:id" element={<User_id/>}/>
           </Routes>
        </div>
     </Router>

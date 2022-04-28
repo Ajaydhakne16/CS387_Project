@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3001;
-const ptest = require('./db.js');
+const ptest = require('./item.js');
 const o = require('./orders.js');
 const m = require('./menu.js');
 const i = require('./stock.js');
@@ -18,7 +18,17 @@ app.use(function (req, res, next) {
 });
 app.get('/items',(req,res)=>{
     
-    ptest.handle_query()
+    ptest.list_items()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+app.get('/items/:id',(req,res)=>{
+    ptest.list_item_ingredients(parseInt(req.params.id))
     .then(response => {
         res.status(200).send(response.rows);
       })
@@ -28,8 +38,8 @@ app.get('/items',(req,res)=>{
 }
 );
 
-app.get('/orders',(req,res)=>{
-    o.display_orders()
+app.get('/orders/',(req,res)=>{
+    o.display_all_orders()
     .then(response => {
         res.status(200).send(response.rows);
       })
@@ -40,7 +50,7 @@ app.get('/orders',(req,res)=>{
 );
 
 app.get('/orders/:id',(req,res)=>{
-    o.display_order(req.params.id)
+    o.display_orders(req.params.id)
     .then(response => {
         res.status(200).send(response.rows);
       })
@@ -60,7 +70,6 @@ app.get('/menu',(req,res)=>{
       })
 }
 );
-
 app.get('/menu/:id',(req,res)=>{
     m.display_item_details(req.params.id)
     .then(response => {
@@ -71,7 +80,6 @@ app.get('/menu/:id',(req,res)=>{
       })
 }
 );
-
 app.get('/stock',(req,res)=>{
     i.list_ingredients()
     .then(response => {
@@ -82,7 +90,6 @@ app.get('/stock',(req,res)=>{
         })
 }
 );
-
 app.get('/stock/:id',(req,res)=>{
     i.ingredient_details(req.params.id)
     .then(response => {
@@ -93,9 +100,9 @@ app.get('/stock/:id',(req,res)=>{
         })
 }
 );
-
 app.get('/user',(req,res)=>{
-    u.list_users()
+
+    u.display_users()
     .then(response => {
         res.status(200).send(response.rows);
         })
@@ -104,7 +111,6 @@ app.get('/user',(req,res)=>{
         })
 }
 );
-
 app.get('/user/:id',(req,res)=>{
     u.user_details(req.params.id)
     .then(response => {
@@ -115,7 +121,6 @@ app.get('/user/:id',(req,res)=>{
         })
 }
 );
-
 app.get('/table',(req,res)=>{
     t.show_tables()
     .then(response => {
@@ -126,7 +131,6 @@ app.get('/table',(req,res)=>{
         })
 }
 );
-
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 }
