@@ -4,9 +4,10 @@ const port = 3001;
 const ptest = require('./db.js');
 const o = require('./orders.js');
 const m = require('./menu.js');
-const i = require('./ingredient.js');
+const i = require('./stock.js');
 const u = require('./users.js');
 const t = require('./table.js');
+const e = require('./employee.js');
 
 app.use(express.json());
 app.use(function (req, res, next) {
