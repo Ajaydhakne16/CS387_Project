@@ -22,10 +22,10 @@ function Item_id(){
     const [data, setData] = useState([]);
     const [X, setX] = useState(<></>);
 
-    const { item_id } = useParams();
+    const { id } = useParams();
     
     useEffect(() => {
-        fetch('http://localhost:3001/items/'+item_id)
+        fetch('http://localhost:3001/items/'+id)
         .then(res => res.json())
         .then(data => {
             printItem(data, setX);

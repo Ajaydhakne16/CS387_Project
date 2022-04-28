@@ -12,7 +12,7 @@ export function MyRoute(){
         <div style={{margin:"0 auto",  width: "700px"}}>
            <div style={{margin:"0 auto",  width: "700px"}} class="btn-group" role="group" aria-label="Basic example">
          <button class="btn btn-secondary" type="button">
-            <Link style={{color:"white",textDecoration:"none"}} to="/customers" >Customers</Link>
+            <Link style={{color:"white",textDecoration:"none"}} to="/user" >Users</Link>
          </button>
          <button class="btn btn-secondary" type="button">
             <Link style={{color:"white",textDecoration:"none"}} to="/items" >Items</Link>

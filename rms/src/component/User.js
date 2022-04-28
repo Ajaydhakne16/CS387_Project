@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
-function printCustomers(data, setX) {
+function printUsers(data, setX) {
 
     setX(data.map((item, index) => {
     return ( 
         <tr>
-        <td><a style={{ textDecoration: "none" }} href={'/customers/' + item.email}>{item.name}</a> </td>
+        <td><a style={{ textDecoration: "none" }} href={'/user/' + item.email}>{item.name}</a> </td>
            <td>{item.email}</td> 
            <td>{item.contact}</td> 
            <td>{item.address}</td> 
@@ -16,17 +16,17 @@ function printCustomers(data, setX) {
     )
 }))
 }
-function Customer(){
+function User(){
 
     const [data, setData] = useState([]);
     const [X, setX] = useState(<></>);
     
     useEffect(() => {
-        fetch('http://localhost:3001/customers')
+        fetch('http://localhost:3001/user')
         .then(res => res.json())
         .then(data => {
             
-            printCustomers(data, setX);
+            printUsers(data, setX);
             setData(data);
         })
     }, []);
@@ -44,4 +44,4 @@ function Customer(){
         </div>
     )
 }
-export default Customer;
+export default User
