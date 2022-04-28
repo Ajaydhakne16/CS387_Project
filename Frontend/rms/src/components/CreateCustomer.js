@@ -100,7 +100,7 @@ const CreateCustomer = () => {
     {errory && (
       <div className="error">Capacity must be Integer</div>
     )}
-      <div className="title">Add New Venue</div>
+      <div className="title">Add New Customer</div>
 
       <div className="input-container ic1">
         <input

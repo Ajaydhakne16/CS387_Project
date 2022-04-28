@@ -1,6 +1,6 @@
 const Pool =require('pg').Pool;
 require('dotenv').config();
-
+const jwt = require('jsonwebtoken');
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.HOST,
@@ -132,6 +132,27 @@ const create_supplier = (params) => {
     })
 }
 
+const login_user = (params) => {
+    return new Promise(function(resolve, reject) {
+      const { email,password} = params
+      pool.query(`select email, password from owner where email = $1  and password = $2 union select email, password from manager where email = $1 and password = $2 union select email, password from chef where email = $1 and password = $2 union select email, password from delivery_person where email = $1 and password = $2 union select email, password from delivery_person
+        where email = $1 and password = $2 union select email, password from cashier where email = $1 and password = $2 union select email, password from waiter where email = $1 and password = $2 union select email, password from customer where email = $1 and password = $2`, [email, password], (error, results) => {
+        if (error) {
+            resolve({auth:false, message:"login failed"})
+        }
+        else{
+            if(results.rows[0]){
+                const token = jwt.sign({ email }, process.env.TOKEN_SECRET, { expiresIn: "1800s"});
+                resolve({auth:true, token:token, result:results.rows[0], message:"successful login"})
+            }
+            else{
+               resolve({auth:false, message:"login failed"})
+            }
+        }
+      })
+    })
+}
+
 module.exports = {
     create_customer,
     create_owner,
@@ -140,5 +161,6 @@ module.exports = {
     create_delivery_person,
     create_cashier,
     create_waiter,
-    create_supplier
+    create_supplier,
+    login_user
 }
