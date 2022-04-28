@@ -11,9 +11,7 @@ const pool = new Pool({
 
 const create_customer = (params) => {
     return new Promise(function(resolve, reject) {
-      const { email, name, contact, address, password } = params
-      console.log(params)
-      pool.query('INSERT INTO customer (email, name, contact, address, password, premium) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [email, name, contact, address, password,0], (error, results) => {
+      pool.query('INSERT INTO customer (email, name, contact, address, password, premium) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [params.email, params.name, params.contact, params.address, params.password,0], (error, results) => {
         if (error) {
           reject(error)
         }

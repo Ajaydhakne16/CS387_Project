@@ -43,7 +43,7 @@ const Login = () => {
             setLoginStatus(true)
             console.log(res.data.token)
             localStorage.setItem("token",res.data.token)
-            navigate("/");
+            //navigate("/");
         })
         .catch((err) => {
             console.log(err)
