@@ -29,7 +29,7 @@ const Login = () => {
                 console.log(err)
             });
   };
-  
+
   const navigate = useNavigate();
   const onSubmitForm = async e => {
     e.preventDefault();
@@ -103,7 +103,7 @@ const Login = () => {
 
       <button type="submit" className="submit">login</button>
 
-      <button  className="submit" onClick={getStatus} >Check</button>
+      {/* <button  className="submit" onClick={getStatus} >Check</button> */}
     </form>
   </div>
      

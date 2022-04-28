@@ -130,6 +130,21 @@ const create_supplier = (params) => {
     })
 }
 
+const create_item = (params) => {
+  return new Promise(function(resolve, reject) {
+    const { email, name, contact, address, password, preference } = params
+    pool.query('INSERT INTO supplier (email, name, contact, address, password, preference) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [email, name, contact, address, password, preference], (error, results) => {
+      if (error) {
+        reject(error)
+      }
+      else{
+          console.log(results.rows[0]['name'])
+          resolve(`A new supplier has been added: ${results.rows[0]['email']}`)
+      }
+    })
+  })
+}
+
 const login_user = (params) => {
     return new Promise(function(resolve, reject) {
       const { email,password} = params

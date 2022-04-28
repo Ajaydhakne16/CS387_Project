@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3001;
-const ptest = require('./db.js');
+const ptest = require('./item.js');
 const create_model = require('./create.js');
 const user_model = require('./users.js');
 const jwt = require('jsonwebtoken');
@@ -26,6 +26,29 @@ const verifyJWT = (req, res, next) => {
       return next();
     });
   }
+
+app.get('/items',(req,res)=>{
+    
+    ptest.list_items()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/items/:id',(req,res)=>{
+    ptest.list_item_ingredients(parseInt(req.params.id))
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
 
 app.get('/check', verifyJWT, (req,res)=>{
     res.send("Your token is verified");
