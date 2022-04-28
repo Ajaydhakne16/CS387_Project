@@ -29,6 +29,7 @@ const Login = () => {
                 console.log(err)
             });
   };
+  
   const navigate = useNavigate();
   const onSubmitForm = async e => {
     e.preventDefault();
@@ -71,12 +72,6 @@ const Login = () => {
   return (
   <div className="body">  
     <form className="form " onSubmit={onSubmitForm}>
-    {/* {!valid && (
-      <div className="error">Something Went Wrong</div>
-    )}
-    {errory && (
-      <div className="error">Capacity must be Integer</div>
-    )} */}
       <div className="title">Login</div>
 
       <div className="input-container ic1">
@@ -90,7 +85,7 @@ const Login = () => {
             
         />
         <div className="cut"></div>
-        <label htmlFor="email" className="placeholder">Email*</label>
+        <label htmlFor="email" className="placeholder">Email</label>
       </div>
 
       <div className="input-container ic2">

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useParams } from "react-router";
 const Home = () => {
 
     const [userInfo, setUserInfo] = useState({});
-
+    const [show, setShow] = useState(true);
+    const {type} = useParams();
     const getUserInfo = () => {
         const token = localStorage.getItem("token")
         console.log(token)
         axios({
-                url: "http://localhost:3001/userInfo",
+                url: `http://localhost:3001/userInfo?type=${type}`,
                 method: "GET",
                 headers: {
                     "Authorization" : `Bearer ${token}`
@@ -19,9 +20,10 @@ const Home = () => {
             .then((res) => { 
                 setUserInfo(res.data)
                 console.log(userInfo)
+                if(res.data.length == 0) setShow(false)
             })
             .catch((err) => {
-                console.log(err)
+                setShow(false)
             });
     };
 
@@ -31,6 +33,7 @@ const Home = () => {
 
   return (
     <div className ="container">
+        {show && (
         <div>
             <div className ="card">
                 <div className ="card-header">
@@ -47,6 +50,10 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        )}
+        {!show && (
+            <h2>{type} profile does not exist for you</h2>
+        )}
     </div>
   );
 };

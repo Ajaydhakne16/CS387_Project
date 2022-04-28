@@ -8,11 +8,10 @@ const pool = new Pool({
     port: process.env.PORT,
 });
 
-const getUserInfo = (email) => {
+const getUserInfo = (email,type) => {
     return new Promise(function(resolve, reject) {
-      pool.query(`select * from customer where email = $1`,[email], (error, results) => {
+      pool.query(`select * from ${type} where email = $1`,[email], (error, results) => {
         if (error) {
-            console.log(error);
             reject(error)
         }
         else {

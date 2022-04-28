@@ -33,8 +33,8 @@ app.get('/check', verifyJWT, (req,res)=>{
 });
 
 app.get('/userInfo', verifyJWT, (req,res)=>{
-
-  user_model.getUserInfo(req.tokenData.email)
+  const {type} = req.query
+  user_model.getUserInfo(req.tokenData.email,type)
   .then(response => {
       res.status(200).send(response);
       console.log(response)

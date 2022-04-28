@@ -14,12 +14,6 @@ const CreateCustomer = () => {
 
   const onSubmitForm = async e => {
     e.preventDefault();
-    // if(isNaN(venue.capacity)){
-    //   setError(true);
-    // }
-    // if(venue.venue_name && venue.city_name && venue.country_name && venue.capacity) {
-    //   setValid(true);
-    // }
     try {
       if(!errory){
         const body = { ...customer };
