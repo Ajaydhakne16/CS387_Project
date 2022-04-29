@@ -10,6 +10,11 @@ import CreateItem from './components/CreateItem';
 import CreateIngredient from './components/CreateIngredient';
 import IngredientList from './components/IngredientList';
 import CreateOrder from './components/CreateOrder';
+import User from './component/User.js'
+import User_id from './component/User_id.js'
+import Employee from './component/Employee.js'
+import Owner from './component/owner';
+import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
     const [data, setData] = useState([]);
     return ( 
@@ -23,9 +28,11 @@ function App() {
             <Route path="/items/:id" element={<Item_id/>}/>
             <Route path="signup/:type" element={<CreateUser/>} /> 
             <Route path="profile/:type" element={<Home/>} /> 
+            <Route path="/user" element={<User/>}/>
+            <Route path="/user/:id" element={<User_id/>}/>
+            <Route path="/employees" element={<Employee/>}/>
+            <Route path="/owners" element={<Owner/>}/>
         </Routes>
         </BrowserRouter>
     );
 }
-
-export default App;

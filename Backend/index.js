@@ -7,6 +7,10 @@ const user_model = require('./users.js');
 const i = require('./ingredient.js');
 const e = require('./employee.js');
 const d = require('./discount.js');
+const o = require('./orders.js');
+const m = require('./menu.js');
+const u = require('./users.js');
+const t = require('./table.js');
 
 const jwt = require('jsonwebtoken');
 app.use(express.json());
@@ -19,6 +23,60 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
     next();
 });
+app.get('/items',(req,res)=>{
+    
+    ptest.list_items()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+app.get('/items/best',(req,res)=>{
+    
+    ptest.list_best_items()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+app.get('/items/:id',(req,res)=>{
+    ptest.list_item_ingredients(parseInt(req.params.id))
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/orders/',(req,res)=>{
+    o.display_all_orders()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+
+app.get('/orders/:id',(req,res)=>{
+    o.display_orders(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
 
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers["authorization"];
@@ -71,9 +129,8 @@ app.get('/userInfo', verifyJWT, (req,res)=>{
     })
 });
 
-app.get('/',(req,res)=>{
-
-    ptest.handle_query()
+app.get('/menu',(req,res)=>{
+    m.display_menu(req.params.id)
     .then(response => {
         res.status(200).send(response.rows);
       })
@@ -258,28 +315,6 @@ app.get('/this_item',(req,res)=>{
 }
 );
 
-app.get('/employees/waiters',(req,res)=>{
-  e.waiter_details()
-  .then(response => {
-      res.status(200).send(response.rows);
-      })
-  .catch(error => {
-      res.status(500).send(error);
-      })
-}
-);
-
-app.get('/employees/cashiers',(req,res)=>{
-  e.cashier_details()
-  .then(response => {
-      res.status(200).send(response.rows);
-      })
-  .catch(error => {
-      res.status(500).send(error);
-      })
-}
-);
-
 app.get('/coupons',(req,res)=>{
   d.all_coupons()
   .then(response => {
@@ -291,6 +326,118 @@ app.get('/coupons',(req,res)=>{
 }
 );
 
+app.get('/menu/:id',(req,res)=>{
+    m.display_item_details(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
+app.get('/user',(req,res)=>{
+
+    u.display_users()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/user/:id',(req,res)=>{
+    u.user_details(req.params.id)
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/user/freq',(req,res)=>{
+    
+    u.display_freq_users()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/table',(req,res)=>{
+    t.show_tables()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/chefs',(req,res)=>{
+    e.chef_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/waiters',(req,res)=>{
+    e.waiter_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/dps',(req,res)=>{
+    e.deliver_person_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/cashiers',(req,res)=>{
+    e.cashier_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/managers',(req,res)=>{
+    e.manager_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/owners',(req,res)=>{
+    e.owner_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 }

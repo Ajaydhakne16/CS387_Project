@@ -24,13 +24,12 @@ const list_items = () => {
             });
         });
 }
-const list_item_ingredients = (item_id) => {
+const list_best_items = () => {
+
     return new Promise((resolve, reject) => {
+        
         pool.query(`
-        with X as 
-        (select * from made_of,ingredient where made_of.item_id = $1 and made_of.ingredient_id = ingredient.ingredient_id)
-        select * from X,item where X.item_id = item.item_id;
-`,[item_id],
+        with X(item_id,c) as (select item_id,count(order_id) from order_contain group by item_id) select item.item_id,name,price,type,category,availability,rating,c from item ,X where item.item_id = X.item_id order by c desc limit 10;`,
 (error, results) => {
             if (error) {
                 reject(error);
@@ -55,4 +54,21 @@ const get_max_id = () => {
         });
     });   
 }
-module.exports = {pool,list_items,list_item_ingredients,get_max_id};
+const list_item_ingredients = (item_id) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`
+        with X as 
+        (select * from made_of,ingredient where made_of.item_id = $1 and made_of.ingredient_id = ingredient.ingredient_id)
+        select * from X,item where X.item_id = item.item_id;
+`,[item_id],
+(error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results);
+            
+        });
+    });
+}
+
+module.exports = {pool,list_items,list_item_ingredients,list_best_items, get_max_id};
