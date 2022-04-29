@@ -4,6 +4,7 @@ const port = 3001;
 const ptest = require('./item.js');
 const create_model = require('./create.js');
 const user_model = require('./users.js');
+const i = require('./ingredient.js');
 const jwt = require('jsonwebtoken');
 app.use(express.json());
 
@@ -169,6 +170,77 @@ app.post('/login/', (req, res) => {
 
 });
 
+app.post('/create/item', (req, res) => {
+
+  create_model.create_item(req.body)
+  .then(response => {
+      res.status(200).send(response);
+  })
+  .catch(error => {
+      res.status(500).send(error);
+  })
+
+});
+
+app.post('/create/ingredient', (req, res) => {
+
+  create_model.create_ingredient(req.body)
+  .then(response => {
+      res.status(200).send(response);
+  })
+  .catch(error => {
+      console.log(error)
+      res.status(500).send(error);
+  })
+
+});
+
+app.post('/create/madeof', (req, res) => {
+
+  create_model.create_madeof(req.body)
+  .then(response => {
+      res.status(200).send(response);
+  })
+  .catch(error => {
+      console.log(error)
+      res.status(500).send(error);
+  })
+
+});
+
+app.get('/stock',(req,res)=>{
+  i.list_ingredients()
+  .then(response => {
+      res.status(200).send(response.rows);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
+
+app.get('/stock/:id',(req,res)=>{
+  i.ingredient_details(req.params.id)
+  .then(response => {
+      res.status(200).send(response.rows);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
+
+
+app.get('/this_item',(req,res)=>{
+  ptest.get_max_id()
+  .then(response => {
+      res.status(200).send(response);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
 
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);

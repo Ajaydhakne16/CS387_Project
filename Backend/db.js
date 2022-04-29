@@ -11,16 +11,16 @@ const pool = new Pool({
 
 const handle_query = () => {
 
-        return new Promise((resolve, reject) => {
-            
+        return new Promise((resolve, reject) => {            
             pool.query(`
             SELECT * FROM item`,
-(error, results) => {
+            (error, results) => {
                 if (error) {
                     reject(error);
                 }
                 resolve(results);
             });
         });
+        
 }
 module.exports = {pool,handle_query};

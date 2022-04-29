@@ -41,4 +41,18 @@ const list_item_ingredients = (item_id) => {
     });
 }
 
-module.exports = {pool,list_items,list_item_ingredients};
+const get_max_id = () => {
+    return new Promise((resolve, reject) => {
+            
+        pool.query(`
+        select max(item_id) as item_id from item`,
+            (error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results.rows[0]);
+            
+        });
+    });   
+}
+module.exports = {pool,list_items,list_item_ingredients,get_max_id};

@@ -132,17 +132,50 @@ const create_supplier = (params) => {
 
 const create_item = (params) => {
   return new Promise(function(resolve, reject) {
-    const { email, name, contact, address, password, preference } = params
-    pool.query('INSERT INTO supplier (email, name, contact, address, password, preference) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [email, name, contact, address, password, preference], (error, results) => {
+    const {name, price, type, category, availability, rating } = params
+    pool.query('INSERT INTO item (name, price, type, category, availability, rating) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [name, price, type, category, availability, rating ], (error, results) => {
       if (error) {
+        console.log(error)
         reject(error)
       }
       else{
           console.log(results.rows[0]['name'])
-          resolve(`A new supplier has been added: ${results.rows[0]['email']}`)
+          resolve(`A new item has been added: ${results.rows[0]['name']}`)
       }
     })
   })
+}
+
+const create_ingredient = (params) => {
+  return new Promise(function(resolve, reject) {
+    const {name, stock, description} = params
+    pool.query('INSERT INTO ingredient (name, stock, description) VALUES ($1, $2, $3) RETURNING *', [name, stock, description], (error, results) => {
+      if (error) {
+        console.log(error)
+        reject(error)
+      }
+      else{
+          console.log(results.rows[0]['name'])
+          resolve(`A new item has been added: ${results.rows[0]['name']}`)
+      }
+    })
+  }) 
+}
+
+const create_madeof = (params) => {
+  return new Promise(function(resolve, reject) {
+    const {ingredient_id, quantity, item_id} = params
+    pool.query('INSERT INTO made_of (ingredient_id, quantity, item_id) VALUES ($1, $2, $3) RETURNING *', [ingredient_id, quantity, item_id], (error, results) => {
+      if (error) {
+        console.log(error)
+        reject(error)
+      }
+      else{
+          console.log(results.rows[0]['name'])
+          resolve(`Added`)
+      }
+    })
+  }) 
 }
 
 const login_user = (params) => {
@@ -175,5 +208,8 @@ module.exports = {
     create_cashier,
     create_waiter,
     create_supplier,
-    login_user
+    create_item,
+    create_ingredient,
+    login_user,
+    create_madeof
 }

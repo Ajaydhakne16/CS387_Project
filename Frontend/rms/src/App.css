@@ -8978,3 +8978,12 @@ body {
       .input:focus ~ .placeholder {
         color: #dc2f55;
       }
+  
+      
+      form {
+        margin-top: 20px;
+      }
+      
+      select {
+        width: 300px;
+      }
