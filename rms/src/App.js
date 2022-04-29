@@ -10,6 +10,7 @@ import CreateItem from './components/CreateItem';
 import CreateIngredient from './components/CreateIngredient';
 import IngredientList from './components/IngredientList';
 import CreateOrder from './components/CreateOrder';
+import CreateCustomer from './components/CreateCustomer';
 function App() {
     const [data, setData] = useState([]);
     return ( 
@@ -21,7 +22,8 @@ function App() {
             <Route path="/add/ingredient" element={<CreateIngredient/>} /> 
             <Route path="/items" element={<Item data={data} setData={setData}/>}/>
             <Route path="/items/:id" element={<Item_id/>}/>
-            <Route path="signup/:type" element={<CreateUser/>} /> 
+            <Route path="/signup" element={<CreateCustomer/>}/>
+            <Route path="add/:type" element={<CreateUser/>} /> 
             <Route path="profile/:type" element={<Home/>} /> 
         </Routes>
         </BrowserRouter>

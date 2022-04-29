@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-
-const CreateUser = () => {
-  const {type} = useParams();
+import { Link } from "react-router-dom";
+const CreateCustomer = () => {
+  const {type} = "customer"
   const [user, setUser] = useState({
     email:"", 
     name:"", 
@@ -55,15 +55,15 @@ const CreateUser = () => {
 
   const onSubmitForm = async e => {
     e.preventDefault();
-    const token = localStorage.getItem("token")
     try {
       if(!errory){
         const body = { ...user };
-        const response = await fetch(`http://localhost:3001/add?type=${type}`, {
+        const response = await fetch(`http://localhost:3001/signup`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" , "Authorization" : `Bearer ${token}`},
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
+        // window.location = "/users";
       }
 
     } catch (err) {
@@ -360,11 +360,13 @@ const CreateUser = () => {
         <label htmlFor="description" className="placeholder">Description</label>
       </div>
       )}
-      <button type="submit" className="submit">ADD</button>
+      <button type="submit" className="submit" style={{marginBottom:"20pt"}}>ADD</button>
+
+      <span><Link to={{pathname: `/`}}>Already have an account</Link></span>
     </form>
   </div>
      
   );
 };
 
-export default CreateUser;
+export default CreateCustomer;

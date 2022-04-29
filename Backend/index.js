@@ -7,8 +7,8 @@ const user_model = require('./users.js');
 const i = require('./ingredient.js');
 const e = require('./employee.js');
 const d = require('./discount.js');
-
 const jwt = require('jsonwebtoken');
+
 app.use(express.json());
 
 const cors = require('cors');
@@ -20,6 +20,44 @@ app.use(function (req, res, next) {
     next();
 });
 
+const checkManager = (email) => {
+  e.get_manager(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      return true
+      else
+      return false
+    })
+  .catch(error => {
+    })
+}
+
+const checkOwner = (email) => {
+  e.get_owner(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      return true
+      else
+      return false
+    })
+  .catch(error => {
+    })
+}
+const checkCashier = (email) => {
+  e.get_cashier(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      return true
+      else
+      return false
+    })
+  .catch(error => {
+    })
+}
+
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -27,12 +65,13 @@ const verifyJWT = (req, res, next) => {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
       if (err) return res.sendStatus(403);
       req.tokenData = decoded;
+      checkManager(req.tokenData.email)
+      console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
       return next();
     });
   }
 
 app.get('/items',(req,res)=>{
-    
     ptest.list_items()
     .then(response => {
         res.status(200).send(response.rows);
@@ -83,9 +122,21 @@ app.get('/',(req,res)=>{
 }
 );
 
-app.post('/create/', (req, res) => {
+app.post('/signup', (req, res) => {
+  create_model.create_customer(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send(error);
+  })
+});
+
+app.post('/add', verifyJWT, (req, res) => {
     const {type} = req.query
     console.log(type)
+    if(checkCashier(req.tokenData.email) || checkManager(req.tokenData.email) || checkOwner(req.tokenData.email))
     if(type == "customer"){
         create_model.create_customer(req.body)
         .then(response => {
@@ -96,7 +147,11 @@ app.post('/create/', (req, res) => {
           res.status(500).send(error);
         })
     }
-    if(type == "owner"){
+    else{
+      res.status(403).send("NOT PERMITTED");
+    }
+    if(checkOwner(req.tokenData.email)){
+      if(type == "owner"){
         create_model.create_owner(req.body)
         .then(response => {
           res.status(200).send(response);
@@ -104,60 +159,69 @@ app.post('/create/', (req, res) => {
         .catch(error => {
           res.status(500).send(error);
         })
+      }
+      if(type == "manager"){
+          create_model.create_manager(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
     }
-    if(type == "manager"){
-        create_model.create_manager(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
+    else{
+      res.status(403).send("NOT PERMITTED");
     }
-    if(type == "chef"){
-        create_model.create_chef(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
+    if(checkManager(req.tokenData.email) || checkOwner(req.tokenData.email)){
+      if(type == "chef"){
+          create_model.create_chef(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "delivery_person"){
+          create_model.create_delivery_person(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "cashier"){
+          create_model.create_cashier(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "waiter"){
+          create_model.create_waiter(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "supplier"){
+          create_model.create_supplier(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }        
     }
-    if(type == "delivery_person"){
-        create_model.create_delivery_person(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "cashier"){
-        create_model.create_cashier(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "waiter"){
-        create_model.create_waiter(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "supplier"){
-        create_model.create_supplier(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
+    else{
+      res.status(403).send("NOT PERMITTED");
     }
 });
 

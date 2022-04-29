@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 const Login = () => {
   const [user, setUser] = useState({
     email:"", 
@@ -44,6 +44,7 @@ const Login = () => {
             setLoginStatus(true)
             console.log(res.data.token)
             localStorage.setItem("token",res.data.token)
+            navigate("/items")
         })
         .catch((err) => {
             console.log(err)
@@ -100,9 +101,9 @@ const Login = () => {
         <label htmlFor="contact" className="placeholder">Password</label>     
       </div> 
 
-      <button type="submit" className="submit">login</button>
+      <button type="submit" className="submit" style={{marginBottom:"10pt"}}>login</button>
 
-      {/* <button  className="submit" onClick={getStatus} >Check</button> */}
+      <span><Link to={{pathname: `/signup`}}>Do Not Have an account</Link></span>
     </form>
   </div>
      
