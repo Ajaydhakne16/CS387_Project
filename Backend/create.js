@@ -178,6 +178,22 @@ const create_madeof = (params) => {
   }) 
 }
 
+
+const create_order = (params) => {
+  return new Promise(function(resolve, reject) {
+    const {price, type, waiter_id, tip, customer_id, discount_coupon, timestamp, cashier_id} = params
+    pool.query('INSERT INTO food_order (price, type, waiter_id, tip, customer_id, discount_coupon, timestamp, cashier_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *', [price, type, waiter_id, tip, customer_id, discount_coupon, timestamp, cashier_id], (error, results) => {
+      if (error) {
+        console.log(error)
+        reject(error)
+      }
+      else{
+          resolve(`Added`)
+      }
+    })
+  }) 
+}
+
 const login_user = (params) => {
     return new Promise(function(resolve, reject) {
       const { email,password} = params
@@ -211,5 +227,6 @@ module.exports = {
     create_item,
     create_ingredient,
     login_user,
-    create_madeof
+    create_madeof,
+    create_order
 }

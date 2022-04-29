@@ -2,12 +2,18 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
+
+
 const updateCart = (item) =>{
-    // let arr = JSON.parse(localStorage.getItem("order_items"))
-    // console.log(arr)
-    // if(!arr)arr=[]
-    // arr.push(item)
-    // localStorage.setItem("order_items", JSON.stringify(arr))
+    let arr = []
+    try {
+        arr = JSON.parse(localStorage.getItem("order_items"))
+    } catch (error) {
+        arr = []
+    }
+    console.log(arr)
+    arr.push(item)
+    localStorage.setItem("order_items", JSON.stringify(arr))
     
 }
 

@@ -5,6 +5,9 @@ const ptest = require('./item.js');
 const create_model = require('./create.js');
 const user_model = require('./users.js');
 const i = require('./ingredient.js');
+const e = require('./employee.js');
+const d = require('./discount.js');
+
 const jwt = require('jsonwebtoken');
 app.use(express.json());
 
@@ -208,6 +211,19 @@ app.post('/create/madeof', (req, res) => {
 
 });
 
+app.post('/create/order', (req, res) => {
+
+  create_model.create_order(req.body)
+  .then(response => {
+      res.status(200).send(response);
+  })
+  .catch(error => {
+      console.log(error)
+      res.status(500).send(error);
+  })
+
+});
+
 app.get('/stock',(req,res)=>{
   i.list_ingredients()
   .then(response => {
@@ -235,6 +251,39 @@ app.get('/this_item',(req,res)=>{
   ptest.get_max_id()
   .then(response => {
       res.status(200).send(response);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
+
+app.get('/employees/waiters',(req,res)=>{
+  e.waiter_details()
+  .then(response => {
+      res.status(200).send(response.rows);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
+
+app.get('/employees/cashiers',(req,res)=>{
+  e.cashier_details()
+  .then(response => {
+      res.status(200).send(response.rows);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
+
+app.get('/coupons',(req,res)=>{
+  d.all_coupons()
+  .then(response => {
+      res.status(200).send(response.rows);
       })
   .catch(error => {
       res.status(500).send(error);
