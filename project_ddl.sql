@@ -302,24 +302,24 @@ CREATE TRIGGER update_stock
 
 --update  availabilty of ingredients after each food_order
 
-CREATE FUNCTION item_availability() RETURNS TRIGGER 
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-    UPDATE item SET availability = CASE
-    WHEN item.availability = 1 AND NOT EXISTS (SELECT item_id FROM made_of WHERE item.item_id = made_of.item_id AND made_of.ingredient_id = NEW.ingredient_id and made_of.quantity > New.stock)
-    THEN 0
-    ELSE 3
-    END;
-    RETURN NEW ;
-END;
-$$;
+-- CREATE FUNCTION item_availability() RETURNS TRIGGER 
+--     LANGUAGE plpgsql
+--     AS $$
+-- BEGIN
+--     UPDATE item SET availability = CASE
+--     WHEN item.availability = 1 AND NOT EXISTS (SELECT item_id FROM made_of WHERE item.item_id = made_of.item_id AND made_of.ingredient_id = NEW.ingredient_id and made_of.quantity > New.stock)
+--     THEN 0
+--     ELSE 3
+--     END;
+--     RETURN NEW ;
+-- END;
+-- $$;
 
-CREATE TRIGGER item_availability
-  AFTER UPDATE
-  ON ingredient
-  FOR EACH STATEMENT
-  EXECUTE PROCEDURE item_availability();
+-- CREATE TRIGGER item_availability
+--   AFTER UPDATE
+--   ON ingredient
+--   FOR EACH STATEMENT
+--   EXECUTE PROCEDURE item_availability();
 
 
 CREATE FUNCTION update_ingredient_stock() RETURNS TRIGGER 
