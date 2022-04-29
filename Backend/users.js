@@ -23,6 +23,24 @@ const display_users = () => {
             });
         });
 }
+const display_freq_users = () => {
+
+    return new Promise((resolve, reject) => {
+        
+        pool.query(`with X(customer_id,c) as (select customer_id ,count(order_id) from food_order group by customer_id) 
+        select customer.email,customer.contact,customer.address,customer.premium ,c 
+        from customer,X where X.customer_id = customer.email 
+        order by c desc limit 10;`,
+(error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results);
+            console.log(results);
+            
+        });
+    });
+}
 
 const user_details = (user_id) => {
         
@@ -39,4 +57,4 @@ const user_details = (user_id) => {
             });
         });
 }
-module.exports = {pool, display_users, user_details};
+module.exports = {pool, display_users, user_details,display_freq_users};

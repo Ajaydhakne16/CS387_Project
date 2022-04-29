@@ -8,6 +8,8 @@ import Item from './component/Item'
 import Item_id from './component/Item_id'
 import User from './component/User.js'
 import User_id from './component/User_id.js'
+import Employee from './component/Employee.js'
+import Owner from './component/owner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export function App() {
@@ -25,6 +27,10 @@ return(
           <Route path="/items/:id" element={<Item_id/>}/>
           <Route path="/user" element={<User/>}/>
           <Route path="/user/:id" element={<User_id/>}/>
+          <Route path="/employees" element={<Employee/>}/>
+          <Route path="/owners" element={<Owner/>}/>
+
+
           </Routes>
        </div>
     </Router>

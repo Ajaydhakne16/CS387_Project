@@ -27,6 +27,17 @@ app.get('/items',(req,res)=>{
       })
 }
 );
+app.get('/items/best',(req,res)=>{
+    
+    ptest.list_best_items()
+    .then(response => {
+        res.status(200).send(response.rows);
+      })
+    .catch(error => {
+        res.status(500).send(error);
+      })
+}
+);
 app.get('/items/:id',(req,res)=>{
     ptest.list_item_ingredients(parseInt(req.params.id))
     .then(response => {
@@ -121,8 +132,79 @@ app.get('/user/:id',(req,res)=>{
         })
 }
 );
+app.get('/user/freq',(req,res)=>{
+    
+    u.display_freq_users()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
 app.get('/table',(req,res)=>{
     t.show_tables()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/chefs',(req,res)=>{
+    e.chef_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/waiters',(req,res)=>{
+    e.waiter_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/dps',(req,res)=>{
+    e.deliver_person_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/cashiers',(req,res)=>{
+    e.cashier_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/employees/managers',(req,res)=>{
+    e.manager_details()
+    .then(response => {
+        res.status(200).send(response.rows);
+        })
+    .catch(error => {
+        res.status(500).send(error);
+        })
+}
+);
+app.get('/owners',(req,res)=>{
+    e.owner_details()
     .then(response => {
         res.status(200).send(response.rows);
         })

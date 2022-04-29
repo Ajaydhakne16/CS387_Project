@@ -20,6 +20,7 @@ const chef_details = (customer_id) => {
                     reject(error);
                 }
                 resolve(results);
+                
             });
         });
 }
@@ -44,7 +45,7 @@ const waiter_details = (customer_id) => {
     return new Promise((resolve, reject) => {
         
         pool.query(`
-        SELECT * FROM cashier;`,
+        SELECT * FROM waiter;`,
 (error, results) => {
             if (error) {
                 reject(error);
@@ -84,4 +85,18 @@ const manager_details = (customer_id) => {
     });
 }
 
-module.exports = {pool, chef_details, cashier_details, waiter_details, deliver_person_details, manager_details};
+const owner_details = (customer_id) => {
+
+    return new Promise((resolve, reject) => {
+        
+        pool.query(`
+        SELECT * FROM owner;`,
+(error, results) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(results);
+        });
+    });
+}
+module.exports = {pool, chef_details, cashier_details, waiter_details, deliver_person_details, manager_details,owner_details};

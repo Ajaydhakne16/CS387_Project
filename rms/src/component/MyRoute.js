@@ -21,7 +21,7 @@ export function MyRoute(){
             <Link style={{color:"white",textDecoration:"none"}} to="/employees" >Employees</Link>
          </button>
          <button class="btn btn-secondary" type="button">
-            <Link style={{color:"white",textDecoration:"none"}} to="/owner">Owner </Link>
+            <Link style={{color:"white",textDecoration:"none"}} to="/owners">Owner </Link>
          </button>
          <button class="btn btn-secondary" type="button">
             <Link style={{color:"white",textDecoration:"none"}} to="/">Home</Link>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import './style.css'
+
 var a="";
 function printUser(data, setX) {
     setX(data.map((item, index) => {
@@ -61,7 +62,6 @@ function PrintOrders(data, setS,setx) {
         )
     }))
 }
-
 function User_id(){
     const [data, setData] = useState([]);
     const [X, setX] = useState(<></>);
@@ -109,7 +109,7 @@ function User_id(){
                 <th>Seating Capacity</th>
                 </tr>
         )
-          })
+    })
       }
     return (
         <div>
