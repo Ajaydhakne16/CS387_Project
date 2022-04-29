@@ -1,7 +1,7 @@
 import React, { useEffect }  from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import './style.css';
 
 import Home from "./Home";
 

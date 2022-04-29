@@ -15,6 +15,7 @@ import User_id from './component/User_id.js'
 import Employee from './component/Employee.js'
 import Owner from './component/owner';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
     const [data, setData] = useState([]);
     return ( 
@@ -36,3 +37,4 @@ function App() {
         </BrowserRouter>
     );
 }
+export default App;

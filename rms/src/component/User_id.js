@@ -112,7 +112,7 @@ function User_id(){
     })
       }
     return (
-        <div>
+        <div className="mydiv">
          <h2>{a}</h2>
         <tr>
         <th>Email</th>
