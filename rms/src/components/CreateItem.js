@@ -143,7 +143,7 @@ const CreateItem = () => {
             
         />
         <div className="cut"></div>
-        <label htmlFor="name" className="placeholder">Name</label>
+        <label htmlFor="name" >Name</label>
         
       </div>
       <div className="input-container ic2">
@@ -156,7 +156,7 @@ const CreateItem = () => {
               onChange={handlePrice}
         />
         <div className="cut cut-short"></div>
-        <label htmlFor="price" className="placeholder">Price</label>
+        <label htmlFor="price" >Price</label>
       </div>
       <div className="input-container ic2">
         <input
@@ -168,7 +168,7 @@ const CreateItem = () => {
               onChange={handleType}
         />
         <div className="cut"></div>
-        <label htmlFor="type" className="placeholder">Type</label>
+        <label htmlFor="type" >Type</label>
         
       </div>
       <div className="input-container ic2">
@@ -181,7 +181,7 @@ const CreateItem = () => {
             onChange={handleCategory}
         />
         <div className="cut"></div>
-        <label htmlFor="category" className="placeholder">Category</label>
+        <label htmlFor="category" >Category</label>
         
       </div>
       <div className="input-container ic2">
@@ -194,7 +194,7 @@ const CreateItem = () => {
             onChange={handleAvailability}
         />
         <div className="cut"></div>
-        <label htmlFor="availability" className="placeholder">Availability</label>
+        <label htmlFor="availability" >Availability</label>
         
       </div>
       <div className="input-container ic2">
@@ -207,7 +207,7 @@ const CreateItem = () => {
             onChange={handleRating}
         />
         <div className="cut"></div>
-        <label htmlFor="rating" className="placeholder">Rating</label>
+        <label htmlFor="rating" >Rating</label>
         
       </div>
       <div >

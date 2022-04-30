@@ -11,6 +11,7 @@ const o = require('./orders.js');
 const m = require('./menu.js');
 const u = require('./users.js');
 const t = require('./table.js');
+const s = require('./sales.js')
 
 const jwt = require('jsonwebtoken');
 
@@ -586,7 +587,43 @@ app.put('/add/premium',(req,res)=>{
       })
 }
 );
+app.get('/owners/sales',(req,res)=>{
 
+  s.sales_details()
+  
+  .then(response => {
+  
+  res.status(200).send(response.rows);
+  
+  })
+  
+  .catch(error => {
+  
+  res.status(500).send(error);
+  
+  })
+  
+  }
+  
+  );
+  app.get('/owners/sales/items',(req,res)=>{
+  
+  s.list_items_count()
+  
+  .then(response => {
+  
+  res.status(200).send(response.rows);
+  
+  })
+  
+  .catch(error => {
+  
+  res.status(500).send(error);
+  
+  })
+  
+  }
+  );
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 }

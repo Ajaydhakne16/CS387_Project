@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 
 function printIngredient(data, setX) {
     setX(data.map((ingredient, index) => {
-    return ( <option value={ingredient.ingredient_id}>{ingredient.name}</option>)
+    return ( <option value={ingredient.ingredient_id} style={{color:"black"}}>{ingredient.name}</option>)
 }))
 }
 const IngredientList = (props) => {
@@ -58,9 +58,10 @@ const IngredientList = (props) => {
         <div className="row">
             <div className="col-md-6">
                 <form action="">
-                    <select name="country" id="" className="form-control"  onChange={(e) => chose(e.target.value)}>
+                    <select name="country" id="" className="form-control"  onChange={(e) => chose(e.target.value)} style={{color:"black"}}>
                         {X}
                     </select>
+
                     { show && (
                         <div className="input-container ic1">
                         <input
@@ -73,8 +74,8 @@ const IngredientList = (props) => {
                             
                         />
                         <div className="cut"></div>
-                            <label htmlFor="quantity" className="placeholder">Quantity</label>
-                        </div>   
+                            <label htmlFor="quantity" >Quantity</label>
+                        </div>  
                     )}  
                 </form>
             </div>
