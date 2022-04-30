@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 const Login = () => {
   const [user, setUser] = useState({
     email:"", 
@@ -12,22 +12,22 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState(false);
 
   const getStatus = async e => {
-        e.preventDefault();
-        const token = localStorage.getItem("token")
-        console.log(token)
-        axios({
-                url: "http://localhost:3001/check",
-                method: "GET",
-                headers: {
-                    "Authorization" : `Bearer ${token}`
-                }
-            })
-            .then((res) => { 
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            });
+    e.preventDefault();
+    const token = localStorage.getItem("token")
+    console.log(token)
+    axios({
+            url: "http://localhost:3001/check",
+            method: "GET",
+            headers: {
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+        .then((res) => { 
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        });
   };
 
   const navigate = useNavigate();
@@ -42,8 +42,10 @@ const Login = () => {
         })
         .then((res) => { 
             setLoginStatus(true)
-            console.log(res.data.token)
-            localStorage.setItem("token",res.data.token)
+            console.log(res.data[0].token)
+            localStorage.setItem("token",res.data[0].token)
+            localStorage.setItem("roles",JSON.stringify(res.data[1]))
+            console.log(JSON.parse(localStorage.getItem("roles")))
         })
         .catch((err) => {
             console.log(err)
@@ -100,9 +102,9 @@ const Login = () => {
         <label htmlFor="contact" className="placeholder">Password</label>     
       </div> 
 
-      <button type="submit" className="submit">login</button>
+      <button type="submit" className="submit" style={{marginBottom:"10pt"}}>login</button>
 
-      {/* <button  className="submit" onClick={getStatus} >Check</button> */}
+      <span><Link to={{pathname: `/signup`}}>Do Not Have an account</Link></span>
     </form>
   </div>
      

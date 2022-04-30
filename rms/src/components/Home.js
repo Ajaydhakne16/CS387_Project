@@ -7,6 +7,7 @@ const Home = () => {
     const [userInfo, setUserInfo] = useState({});
     const [show, setShow] = useState(true);
     const {type} = useParams();
+    
     const getUserInfo = () => {
         const token = localStorage.getItem("token")
         console.log(token)

@@ -8,11 +8,14 @@ const updateCart = (item) =>{
     let arr = []
     try {
         arr = JSON.parse(localStorage.getItem("order_items"))
+        console.log(arr)
+        arr.push(item)
     } catch (error) {
         arr = []
+        console.log(arr)
+        arr.push(item)
     }
-    console.log(arr)
-    arr.push(item)
+
     localStorage.setItem("order_items", JSON.stringify(arr))
     
 }

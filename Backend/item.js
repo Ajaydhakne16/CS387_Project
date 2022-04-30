@@ -15,7 +15,7 @@ const list_items = () => {
             
             pool.query(`
             SELECT * FROM item`,
-(error, results) => {
+    (error, results) => {
                 if (error) {
                     reject(error);
                 }

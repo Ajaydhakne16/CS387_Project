@@ -13,6 +13,17 @@ const u = require('./users.js');
 const t = require('./table.js');
 
 const jwt = require('jsonwebtoken');
+
+const obj = {
+  isManager : false,
+  isOwner : false,
+  isCustomer : false,
+  isCashier : false,
+  isWaiter: false,
+  isDelivery: false,
+  isSupplier: false
+};
+
 app.use(express.json());
 
 const cors = require('cors');
@@ -78,19 +89,111 @@ app.get('/orders/:id',(req,res)=>{
 }
 );
 
+const checkManager = (email) => {
+  e.get_manager(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isCashier = true;
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkOwner = (email) => {
+  e.get_owner(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      {
+        obj.isOwner = true;
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkCashier = (email) => {
+  e.get_cashier(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      {
+        obj.isCashier = true;
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkWaiter = (email) => {
+  let wai = false
+  e.get_waiter(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      {
+        obj.isWaiter = true;
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkCustomer = (email) => {
+
+  e.get_customer(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isCustomer=true
+      }
+    })
+  .catch(error => {
+    })
+    
+}
+
+const checkSupplier = (email) => {
+  e.get_supplier(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isSupplier = true
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkDelivery = (email) => {
+  e.get_delivery(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isDelivery = true
+      }
+    })
+  .catch(error => {
+    })
+}
+
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null) return res.sendStatus(401);
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      if (err) return res.sendStatus(403);
+      if (err) {
+        console.log(err)
+        return res.sendStatus(403);
+      }
       req.tokenData = decoded;
       return next();
     });
   }
 
 app.get('/items',(req,res)=>{
-    
     ptest.list_items()
     .then(response => {
         res.status(200).send(response.rows);
@@ -140,9 +243,23 @@ app.get('/menu',(req,res)=>{
 }
 );
 
-app.post('/create/', (req, res) => {
+app.post('/signup', (req, res) => {
+  create_model.create_customer(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).send(error);
+  })
+});
+
+app.post('/add', verifyJWT, (req, res) => {
+    console.log(req.body)
     const {type} = req.query
     console.log(type)
+    const email = req.tokenData.email;
+    if(req.body.isManager || req.body.isOwner || req.body.isCashier)
     if(type == "customer"){
         create_model.create_customer(req.body)
         .then(response => {
@@ -153,7 +270,9 @@ app.post('/create/', (req, res) => {
           res.status(500).send(error);
         })
     }
-    if(type == "owner"){
+
+    else if(req.body.isOwner){
+      if(type == "owner"){
         create_model.create_owner(req.body)
         .then(response => {
           res.status(200).send(response);
@@ -161,68 +280,86 @@ app.post('/create/', (req, res) => {
         .catch(error => {
           res.status(500).send(error);
         })
+      }
+      if(type == "manager"){
+        
+          create_model.create_manager(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
     }
-    if(type == "manager"){
-        create_model.create_manager(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
+
+    else if(req.body.isOwner || req.body.isManager){
+      if(type == "chef"){
+          create_model.create_chef(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "delivery_person"){
+          create_model.create_delivery_person(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "cashier"){
+          create_model.create_cashier(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "waiter"){
+          create_model.create_waiter(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }
+      if(type == "supplier"){
+          create_model.create_supplier(req.body)
+          .then(response => {
+            res.status(200).send(response);
+          })
+          .catch(error => {
+            res.status(500).send(error);
+          })
+      }        
     }
-    if(type == "chef"){
-        create_model.create_chef(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "delivery_person"){
-        create_model.create_delivery_person(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "cashier"){
-        create_model.create_cashier(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "waiter"){
-        create_model.create_waiter(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
-    }
-    if(type == "supplier"){
-        create_model.create_supplier(req.body)
-        .then(response => {
-          res.status(200).send(response);
-        })
-        .catch(error => {
-          res.status(500).send(error);
-        })
+    else{
+      res.status(403).send("NOT PERMITTED");
     }
 });
 
 app.post('/login/', (req, res) => {
+    const email = req.body.email;
+    console.log("1",email)
+    checkManager(email);
+    checkOwner(email);
+    checkSupplier(email);
+    checkDelivery(email);
+    checkWaiter(email);
+    checkCashier(email);
+    checkCustomer(email);
+  
 
     create_model.login_user(req.body)
     .then(response => {
-        res.status(200).send(response);
+        res.status(200).send([response,obj]);
     })
     .catch(error => {
         res.status(500).send(error);
