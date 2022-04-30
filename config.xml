@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd">
+<tsung loglevel="notice" version="1.0">
+
+<clients>
+        <client host="localhost" maxusers="1000" use_controller_vm="true"/>
+</clients>
+
+<servers>
+        <server host="192.168.43.45" port="80" type="tcp"/>
+</servers>
+
+<load duration="120" unit="second">
+<arrivalphase phase="1" duration="120" unit="second">
+        <users maxnumber="1000" arrivalrate="200" unit="second"/>
+</arrivalphase>
+</load>
+
+<options>
+<option type="ts_http" name="user_agent">
+        <user_agent probability="100">Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:28.0) Gecko/20100101 Firefox/28.0</user_agent>
+</option>
+<option name="thinktime" value="4" random="true" override="true"/>
+</options>
+
+<sessions>
+
+        <session probability="100" name="login" type="ts_http">
+
+         <for from="1" to="2000000" var="i">
+
+
+        <transaction name="loginURL">
+        <request subst="true">
+                <http url="http://192.168.43.45/items" version="1.1">
+                <http_header name="Cache-Control" value="no-cache"/></http>
+</request>
+        </transaction>
+
+        <thinktime value="4" random="true"/>
+        
+
+        </for>
+
+        </session>
+</sessions>
+</tsung>   
