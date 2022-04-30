@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import './style.css';
 
 function PrintOwner(data, setX) {
 
@@ -34,7 +35,7 @@ function Owner(){
     }, []);
 
 return(
-    <div>
+    <div className="mydiv">
         <tr>
             <tr>
         <th >Name</th>
