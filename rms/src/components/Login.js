@@ -86,7 +86,7 @@ const Login = () => {
             
         />
         <div className="cut"></div>
-        <label htmlFor="email" className="placeholder">Email</label>
+        <label htmlFor="email" >Email</label>
       </div>
 
       <div className="input-container ic2">
@@ -99,7 +99,7 @@ const Login = () => {
               onChange={handlePassword}
         />
         <div className="cut"></div>
-        <label htmlFor="contact" className="placeholder">Password</label>     
+        <label htmlFor="contact" >Password</label>     
       </div> 
 
       <button type="submit" className="submit" style={{marginBottom:"10pt"}}>login</button>

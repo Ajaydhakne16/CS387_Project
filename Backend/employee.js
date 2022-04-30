@@ -181,4 +181,16 @@ const get_customer = (email) => {
     });
 }
 
-module.exports = {pool, chef_details, cashier_details, waiter_details, deliver_person_details, manager_details, get_cashier, get_manager, get_owner, get_waiter, get_customer, get_delivery, get_supplier};
+const owner_details = (customer_id) => {
+    return new Promise((resolve, reject) => {
+    
+    pool.query(`SELECT * FROM owner;`,
+    (error, results) => {
+        if (error) {
+        reject(error);
+        }
+        resolve(results);  
+        });
+    });
+}
+module.exports = {pool, chef_details, cashier_details, waiter_details, deliver_person_details, manager_details, get_cashier, get_manager, get_owner, get_waiter, get_customer, get_delivery, get_supplier, owner_details};

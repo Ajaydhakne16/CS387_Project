@@ -205,7 +205,6 @@ const login_user = (params) => {
         else{
             if(results.rows[0]){
                 const token = jwt.sign({ email }, process.env.TOKEN_SECRET, { expiresIn: "1800s"});
-                console.log(token)
                 resolve({auth:true, token:token, result:results.rows[0], message:"successful login"})
             }
             else{
@@ -214,6 +213,22 @@ const login_user = (params) => {
         }
       })
     })
+}
+
+
+const update_premium = (params) => {
+  const {premium, email} = params
+  return new Promise(function(resolve, reject) {
+    pool.query('Update customer set premium = $1 where email = $2', [premium, email], (error, results) => {
+      if (error) {
+        console.log(error)
+        reject(error)
+      }
+      else{
+          resolve(`Updated`)
+      }
+    })
+  }) 
 }
 
 module.exports = {
@@ -229,5 +244,6 @@ module.exports = {
     create_ingredient,
     login_user,
     create_madeof,
-    create_order
+    create_order,
+    update_premium
 }

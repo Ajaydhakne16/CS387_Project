@@ -575,6 +575,18 @@ app.get('/owners',(req,res)=>{
         })
 }
 );
+
+app.put('/add/premium',(req,res)=>{
+  create_model.update_premium(req.body)
+  .then(response => {
+      res.status(200).send(response.rows);
+      })
+  .catch(error => {
+      res.status(500).send(error);
+      })
+}
+);
+
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 }
