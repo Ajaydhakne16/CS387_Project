@@ -205,6 +205,7 @@ const login_user = (params) => {
         else{
             if(results.rows[0]){
                 const token = jwt.sign({ email }, process.env.TOKEN_SECRET, { expiresIn: "1800s"});
+                console.log(token)
                 resolve({auth:true, token:token, result:results.rows[0], message:"successful login"})
             }
             else{

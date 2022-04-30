@@ -9,6 +9,16 @@ const e = require('./employee.js');
 const d = require('./discount.js');
 const jwt = require('jsonwebtoken');
 
+const obj = {
+  isManager : false,
+  isOwner : false,
+  isCustomer : false,
+  isCashier : false,
+  isWaiter: false,
+  isDelivery: false,
+  isSupplier: false
+};
+
 app.use(express.json());
 
 const cors = require('cors');
@@ -24,10 +34,9 @@ const checkManager = (email) => {
   e.get_manager(email)
   .then(response => {
       console.log(response.rows)
-      if(response.rows.length>0)
-      return true
-      else
-      return false
+      if(response.rows.length>0){
+        obj.isCashier = true;
+      }
     })
   .catch(error => {
     })
@@ -38,21 +47,74 @@ const checkOwner = (email) => {
   .then(response => {
       console.log(response.rows)
       if(response.rows.length>0)
-      return true
-      else
-      return false
+      {
+        obj.isOwner = true;
+      }
     })
   .catch(error => {
     })
 }
+
 const checkCashier = (email) => {
   e.get_cashier(email)
   .then(response => {
       console.log(response.rows)
       if(response.rows.length>0)
-      return true
-      else
-      return false
+      {
+        obj.isCashier = true;
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkWaiter = (email) => {
+  let wai = false
+  e.get_waiter(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0)
+      {
+        obj.isWaiter = true;
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkCustomer = (email) => {
+
+  e.get_customer(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isCustomer=true
+      }
+    })
+  .catch(error => {
+    })
+    
+}
+
+const checkSupplier = (email) => {
+  e.get_supplier(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isSupplier = true
+      }
+    })
+  .catch(error => {
+    })
+}
+
+const checkDelivery = (email) => {
+  e.get_delivery(email)
+  .then(response => {
+      console.log(response.rows)
+      if(response.rows.length>0){
+        obj.isDelivery = true
+      }
     })
   .catch(error => {
     })
@@ -63,10 +125,11 @@ const verifyJWT = (req, res, next) => {
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null) return res.sendStatus(401);
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      if (err) return res.sendStatus(403);
+      if (err) {
+        console.log(err)
+        return res.sendStatus(403);
+      }
       req.tokenData = decoded;
-      checkManager(req.tokenData.email)
-      console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
       return next();
     });
   }
@@ -134,9 +197,11 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/add', verifyJWT, (req, res) => {
+    console.log(req.body)
     const {type} = req.query
     console.log(type)
-    if(checkCashier(req.tokenData.email) || checkManager(req.tokenData.email) || checkOwner(req.tokenData.email))
+    const email = req.tokenData.email;
+    if(req.body.isManager || req.body.isOwner || req.body.isCashier)
     if(type == "customer"){
         create_model.create_customer(req.body)
         .then(response => {
@@ -147,10 +212,8 @@ app.post('/add', verifyJWT, (req, res) => {
           res.status(500).send(error);
         })
     }
-    else{
-      res.status(403).send("NOT PERMITTED");
-    }
-    if(checkOwner(req.tokenData.email)){
+
+    else if(req.body.isOwner){
       if(type == "owner"){
         create_model.create_owner(req.body)
         .then(response => {
@@ -161,6 +224,7 @@ app.post('/add', verifyJWT, (req, res) => {
         })
       }
       if(type == "manager"){
+        
           create_model.create_manager(req.body)
           .then(response => {
             res.status(200).send(response);
@@ -170,10 +234,8 @@ app.post('/add', verifyJWT, (req, res) => {
           })
       }
     }
-    else{
-      res.status(403).send("NOT PERMITTED");
-    }
-    if(checkManager(req.tokenData.email) || checkOwner(req.tokenData.email)){
+
+    else if(req.body.isOwner || req.body.isManager){
       if(type == "chef"){
           create_model.create_chef(req.body)
           .then(response => {
@@ -226,10 +288,20 @@ app.post('/add', verifyJWT, (req, res) => {
 });
 
 app.post('/login/', (req, res) => {
+    const email = req.body.email;
+    console.log("1",email)
+    checkManager(email);
+    checkOwner(email);
+    checkSupplier(email);
+    checkDelivery(email);
+    checkWaiter(email);
+    checkCashier(email);
+    checkCustomer(email);
+  
 
     create_model.login_user(req.body)
     .then(response => {
-        res.status(200).send(response);
+        res.status(200).send([response,obj]);
     })
     .catch(error => {
         res.status(500).send(error);

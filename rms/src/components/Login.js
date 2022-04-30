@@ -12,22 +12,22 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState(false);
 
   const getStatus = async e => {
-        e.preventDefault();
-        const token = localStorage.getItem("token")
-        console.log(token)
-        axios({
-                url: "http://localhost:3001/check",
-                method: "GET",
-                headers: {
-                    "Authorization" : `Bearer ${token}`
-                }
-            })
-            .then((res) => { 
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            });
+    e.preventDefault();
+    const token = localStorage.getItem("token")
+    console.log(token)
+    axios({
+            url: "http://localhost:3001/check",
+            method: "GET",
+            headers: {
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+        .then((res) => { 
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        });
   };
 
   const navigate = useNavigate();
@@ -42,9 +42,10 @@ const Login = () => {
         })
         .then((res) => { 
             setLoginStatus(true)
-            console.log(res.data.token)
-            localStorage.setItem("token",res.data.token)
-            navigate("/items")
+            console.log(res.data[0].token)
+            localStorage.setItem("token",res.data[0].token)
+            localStorage.setItem("roles",JSON.stringify(res.data[1]))
+            console.log(JSON.parse(localStorage.getItem("roles")))
         })
         .catch((err) => {
             console.log(err)

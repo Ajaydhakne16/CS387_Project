@@ -56,9 +56,11 @@ const CreateUser = () => {
   const onSubmitForm = async e => {
     e.preventDefault();
     const token = localStorage.getItem("token")
+    const obj = JSON.parse(localStorage.getItem("roles"))
+    console.log(obj)
     try {
       if(!errory){
-        const body = { ...user };
+        const body = { ...user,  ...obj};
         const response = await fetch(`http://localhost:3001/add?type=${type}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" , "Authorization" : `Bearer ${token}`},
